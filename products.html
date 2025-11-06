@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品列表 - Louiss</title>
+    <link rel="stylesheet" href="css/style.css?v=1.1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>LOUISS</h1>
+            </div>
+            <nav class="navigation">
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="active">女士</a>
+                        <div class="dropdown-content">
+                            <a href="products.html?category=women&type=dresses">连衣裙</a>
+                            <a href="products.html?category=women&type=bags">手袋</a>
+                            <a href="products.html?category=women&type=shoes">鞋履</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">男士</a>
+                        <div class="dropdown-content">
+                            <a href="products.html?category=men&type=suits">西装</a>
+                            <a href="products.html?category=men&type=shirts">衬衫</a>
+                            <a href="products.html?category=men&type=shoes">鞋履</a>
+                        </div>
+                    </li>
+                    <li><a href="services.html">品牌服务</a></li>
+                </ul>
+            </nav>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="搜索产品名称或品类..." class="search-input">
+                <button id="searchBtn" class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 面包屑导航 -->
+    <div class="breadcrumb">
+        <div class="container">
+            <a href="index.html">首页</a> &gt; <span id="breadcrumbText">产品列表</span>
+        </div>
+    </div>
+
+    <!-- 产品列表 -->
+    <section class="products-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 id="productSectionTitle">所有产品</h2>
+                <div class="sort-options">
+                    <label for="sortBy">排序方式：</label>
+                    <select id="sortBy">
+                        <option value="default">默认排序</option>
+                        <option value="price-asc">价格从低到高</option>
+                        <option value="price-desc">价格从高到低</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 筛选侧边栏 -->
+            <div class="products-content">
+                <div class="filter-sidebar">
+                    <div class="filter-section">
+                        <h3>性别</h3>
+                        <ul class="filter-options">
+                            <li><label><input type="checkbox" class="filter-checkbox" data-filter="gender" data-value="women"> 女士</label></li>
+                            <li><label><input type="checkbox" class="filter-checkbox" data-filter="gender" data-value="men"> 男士</label></li>
+                        </ul>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3>品类</h3>
+                        <ul class="filter-options">
+                            <li><label><input type="checkbox" class="filter-checkbox" data-filter="type" data-value="dresses"> 连衣裙</label></li>
+                            <li><label><input type="checkbox" class="filter-checkbox" data-filter="type" data-value="suits"> 西装</label></li>
+                            <li><label><input type="checkbox" class="filter-checkbox" data-filter="type" data-value="bags"> 手袋</label></li>
+                            <li><label><input type="checkbox" class="filter-checkbox" data-filter="type" data-value="shoes"> 鞋履</label></li>
+                            <li><label><input type="checkbox" class="filter-checkbox" data-filter="type" data-value="shirts"> 衬衫</label></li>
+                        </ul>
+                    </div>
+
+                    <div class="filter-section">
+                        <h3>价格区间</h3>
+                        <div class="price-filter">
+                            <input type="range" id="priceRange" min="0" max="100000" step="1000" value="100000">
+                            <div class="price-display">¥0 - ¥<span id="priceMax">100,000</span></div>
+                        </div>
+                    </div>
+
+                    <button id="applyFilters" class="apply-filters-btn">应用筛选</button>
+                    <button id="resetFilters" class="reset-filters-btn">重置筛选</button>
+                </div>
+
+                <!-- 产品网格 -->
+                <div class="product-grid" id="productsGrid">
+                    <!-- 产品项1 -->
+                    <div class="product-item" data-category="women" data-type="dresses" data-price="16800">
+                        <div class="product-image">
+                            <img src="images/new-dress-1.jpg" alt="秋冬丝绒连衣裙">
+                        </div>
+                        <div class="product-info">
+                            <h4>秋冬丝绒连衣裙</h4>
+                            <p>女士 | 连衣裙</p>
+                            <div class="product-price">¥16,800</div>
+                            <a href="product-detail.html?id=1" class="view-details">查看详情</a>
+                        </div>
+                    </div>
+
+                    <!-- 产品项2 -->
+                    <div class="product-item" data-category="men" data-type="suits" data-price="28900">
+                        <div class="product-image">
+                            <img src="images/new-suit-1.jpg" alt="高级定制西装">
+                        </div>
+                        <div class="product-info">
+                            <h4>高级定制西装</h4>
+                            <p>男士 | 西装</p>
+                            <div class="product-price">¥28,900</div>
+                            <a href="product-detail.html?id=2" class="view-details">查看详情</a>
+                        </div>
+                    </div>
+
+                    <!-- 产品项3 -->
+                    <div class="product-item" data-category="women" data-type="bags" data-price="32500">
+                        <div class="product-image">
+                            <img src="images/new-bag-1.jpg" alt="经典老花手袋">
+                        </div>
+                        <div class="product-info">
+                            <h4>经典老花手袋</h4>
+                            <p>女士 | 手袋</p>
+                            <div class="product-price">¥32,500</div>
+                            <a href="product-detail.html?id=3" class="view-details">查看详情</a>
+                        </div>
+                    </div>
+
+                    <!-- 产品项4 -->
+                    <div class="product-item" data-category="men" data-type="shoes" data-price="9800">
+                        <div class="product-image">
+                            <img src="images/new-shoes-1.jpg" alt="正装皮鞋">
+                        </div>
+                        <div class="product-info">
+                            <h4>正装皮鞋</h4>
+                            <p>男士 | 鞋履</p>
+                            <div class="product-price">¥9,800</div>
+                            <a href="product-detail.html?id=4" class="view-details">查看详情</a>
+                        </div>
+                    </div>
+
+                    <!-- 产品项5 -->
+                    <div class="product-item" data-category="women" data-type="shoes" data-price="8600">
+                        <div class="product-image">
+                            <img src="images/bestseller-shoes-1.jpg" alt="细高跟晚宴鞋">
+                        </div>
+                        <div class="product-info">
+                            <h4>细高跟晚宴鞋</h4>
+                            <p>女士 | 鞋履</p>
+                            <div class="product-price">¥8,600</div>
+                            <a href="product-detail.html?id=5" class="view-details">查看详情</a>
+                        </div>
+                    </div>
+
+                    <!-- 产品项6 -->
+                    <div class="product-item" data-category="men" data-type="shirts" data-price="5200">
+                        <div class="product-image">
+                            <img src="images/bestseller-shirt-1.jpg" alt="真丝商务衬衫">
+                        </div>
+                        <div class="product-info">
+                            <h4>真丝商务衬衫</h4>
+                            <p>男士 | 衬衫</p>
+                            <div class="product-price">¥5,200</div>
+                            <a href="product-detail.html?id=6" class="view-details">查看详情</a>
+                        </div>
+                    </div>
+
+                    <!-- 产品项7 -->
+                    <div class="product-item" data-category="women" data-type="dresses" data-price="14500">
+                        <div class="product-image">
+                            <img src="images/bestseller-dress-2.jpg" alt="印花真丝连衣裙">
+                        </div>
+                        <div class="product-info">
+                            <h4>印花真丝连衣裙</h4>
+                            <p>女士 | 连衣裙</p>
+                            <div class="product-price">¥14,500</div>
+                            <a href="product-detail.html?id=7" class="view-details">查看详情</a>
+                        </div>
+                    </div>
+
+                    <!-- 产品项8 -->
+                    <div class="product-item" data-category="men" data-type="suits" data-price="23500">
+                        <div class="product-image">
+                            <img src="images/bestseller-suit-2.jpg" alt="商务休闲西装">
+                        </div>
+                        <div class="product-info">
+                            <h4>商务休闲西装</h4>
+                            <p>男士 | 西装</p>
+                            <div class="product-price">¥23,500</div>
+                            <a href="product-detail.html?id=8" class="view-details">查看详情</a>
+                        </div>
+                    </div>
+
+                    <!-- 产品项9 -->
+                    <div class="product-item" data-category="women" data-type="dresses" data-price="45800">
+                        <div class="product-image">
+                            <img src="images/runway-dress-1.jpg" alt="限量版走秀款连衣裙">
+                        </div>
+                        <div class="product-info">
+                            <h4>限量版走秀款连衣裙</h4>
+                            <p>女士 | 连衣裙</p>
+                            <div class="product-price">¥45,800</div>
+                            <a href="product-detail.html?id=9" class="view-details">查看详情</a>
+                        </div>
+                    </div>
+
+                    <!-- 产品项10 -->
+                    <div class="product-item" data-category="men" data-type="suits" data-price="52000">
+                        <div class="product-image">
+                            <img src="images/runway-suit-1.jpg" alt="设计师合作款西装">
+                        </div>
+                        <div class="product-info">
+                            <h4>设计师合作款西装</h4>
+                            <p>男士 | 西装</p>
+                            <div class="product-price">¥52,000</div>
+                            <a href="product-detail.html?id=10" class="view-details">查看详情</a>
+                        </div>
+                    </div>
+
+                    <!-- 产品项11 -->
+                    <div class="product-item" data-category="women" data-type="bags" data-price="68500">
+                        <div class="product-image">
+                            <img src="images/runway-bag-1.jpg" alt="秀场限定手袋">
+                        </div>
+                        <div class="product-info">
+                            <h4>秀场限定手袋</h4>
+                            <p>女士 | 手袋</p>
+                            <div class="product-price">¥68,500</div>
+                            <a href="product-detail.html?id=11" class="view-details">查看详情</a>
+                        </div>
+                    </div>
+
+                    <!-- 产品项12 -->
+                    <div class="product-item" data-category="women" data-type="shoes" data-price="15800">
+                        <div class="product-image">
+                            <img src="images/runway-shoes-1.jpg" alt="创意总监系列高跟鞋">
+                        </div>
+                        <div class="product-info">
+                            <h4>创意总监系列高跟鞋</h4>
+                            <p>女士 | 鞋履</p>
+                            <div class="product-price">¥15,800</div>
+                            <a href="product-detail.html?id=12" class="view-details">查看详情</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 分页 -->
+            <div class="pagination">
+                <button class="page-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>购物指南</h4>
+                    <ul>
+                        <li><a href="#">如何购物</a></li>
+                        <li><a href="#">支付方式</a></li>
+                        <li><a href="#">配送信息</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>品牌服务</h4>
+                    <ul>
+                        <li><a href="services.html">包装服务</a></li>
+                        <li><a href="services.html">售后政策</a></li>
+                        <li><a href="services.html">保养指南</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>关于我们</h4>
+                    <ul>
+                        <li><a href="#">品牌故事</a></li>
+                        <li><a href="#">新闻动态</a></li>
+                        <li><a href="#">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>关注我们</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Louiss. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 搜索结果模态框 -->
+    <div id="searchResultsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>搜索结果</h3>
+                <button id="closeModal" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body" id="searchResults">
+                <!-- 搜索结果将在这里显示 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/scripts.js"></script>
+    <script src="js/product-filter.js"></script>
+</body>
+</html>

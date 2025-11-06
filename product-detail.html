@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品详情 - Louiss</title>
+    <link rel="stylesheet" href="css/style.css?v=1.1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>LOUISS</h1>
+            </div>
+            <nav class="navigation">
+                <ul>
+                    <li><a href="index.html">首页</a></li>
+                    <li class="dropdown">
+                        <a href="#">女士</a>
+                        <div class="dropdown-content">
+                            <a href="products.html?category=women&type=dresses">连衣裙</a>
+                            <a href="products.html?category=women&type=bags">手袋</a>
+                            <a href="products.html?category=women&type=shoes">鞋履</a>
+                        </div>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#">男士</a>
+                        <div class="dropdown-content">
+                            <a href="products.html?category=men&type=suits">西装</a>
+                            <a href="products.html?category=men&type=shirts">衬衫</a>
+                            <a href="products.html?category=men&type=shoes">鞋履</a>
+                        </div>
+                    </li>
+                    <li><a href="services.html">品牌服务</a></li>
+                </ul>
+            </nav>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="搜索产品名称或品类..." class="search-input">
+                <button id="searchBtn" class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 面包屑导航 -->
+    <div class="breadcrumb">
+        <div class="container">
+            <a href="index.html">首页</a> &gt; 
+            <a href="products.html" id="breadcrumbCategory">女士</a> &gt; 
+            <a href="products.html?type=dresses" id="breadcrumbType">连衣裙</a> &gt; 
+            <span id="breadcrumbProduct">秋冬丝绒连衣裙</span>
+        </div>
+    </div>
+
+    <!-- 产品详情 -->
+    <section class="product-detail-section">
+        <div class="container">
+            <div class="product-detail-content">
+                <!-- 产品图片 -->
+                <div class="product-images">
+                    <div class="main-image">
+                        <img src="images/product-main.jpg" alt="秋冬丝绒连衣裙" id="mainProductImage">
+                    </div>
+                    <div class="thumbnail-images">
+                        <div class="thumbnail" data-img="images/product-main.jpg">
+                            <img src="images/product-main.jpg" alt="缩略图1">
+                        </div>
+                        <div class="thumbnail" data-img="images/product-detail-1.jpg">
+                            <img src="images/product-detail-1.jpg" alt="缩略图2">
+                        </div>
+                        <div class="thumbnail" data-img="images/product-detail-2.jpg">
+                            <img src="images/product-detail-2.jpg" alt="缩略图3">
+                        </div>
+                        <div class="thumbnail" data-img="images/product-detail-3.jpg">
+                            <img src="images/product-detail-3.jpg" alt="缩略图4">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产品信息 -->
+                <div class="product-info">
+                    <h1 class="product-title" id="productTitle">秋冬丝绒连衣裙</h1>
+                    <div class="product-code">产品编号：LSS24WD001</div>
+                    <div class="product-price" id="productPrice">¥16,800</div>
+                    <div class="product-category">女士 | 连衣裙</div>
+                    
+                    <div class="product-description">
+                        <h3>产品描述</h3>
+                        <p>这款秋冬丝绒连衣裙采用高级丝绒面料，触感柔软奢华，垂坠感极佳。经典的剪裁设计，突显女性优雅曲线。V领设计增添一丝妩媚，长袖款式适合秋冬季节穿着。背面隐形拉链设计，穿着便利。可搭配高跟鞋出席正式场合，也可搭配靴子展现休闲优雅气质。</p>
+                    </div>
+
+                    <div class="product-features">
+                        <h3>产品特性</h3>
+                        <ul>
+                            <li>材质：95% 丝绒，5% 氨纶</li>
+                            <li>内衬：100% 真丝</li>
+                            <li>颜色：酒红色</li>
+                            <li>工艺：手工缝制</li>
+                            <li>产地：意大利</li>
+                        </ul>
+                    </div>
+
+                    <div class="product-options">
+                        <div class="size-selection">
+                            <h3>尺码</h3>
+                            <div class="size-options">
+                                <button class="size-btn">XS</button>
+                                <button class="size-btn">S</button>
+                                <button class="size-btn">M</button>
+                                <button class="size-btn">L</button>
+                                <button class="size-btn">XL</button>
+                            </div>
+                        </div>
+
+                        <div class="quantity-selection">
+                            <h3>数量</h3>
+                            <div class="quantity-control">
+                                <button class="quantity-btn" id="decreaseQty">-</button>
+                                <input type="number" value="1" min="1" id="quantityInput">
+                                <button class="quantity-btn" id="increaseQty">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-actions">
+                        <button class="add-to-cart">加入购物袋</button>
+                        <button class="buy-now">立即购买</button>
+                    </div>
+
+                    <div class="product-services">
+                        <div class="service-item">
+                            <i class="fas fa-gift"></i>
+                            <span>精美包装</span>
+                        </div>
+                        <div class="service-item">
+                            <i class="fas fa-truck"></i>
+                            <span>全球配送</span>
+                        </div>
+                        <div class="service-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>正品保障</span>
+                        </div>
+                        <div class="service-item">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>7天退换</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 产品详情 -->
+            <div class="product-details-tabs">
+                <div class="tabs-navigation">
+                    <button class="tab-btn active" data-tab="details">详细描述</button>
+                    <button class="tab-btn" data-tab="care">保养指南</button>
+                    <button class="tab-btn" data-tab="shipping">配送信息</button>
+                </div>
+                
+                <div class="tab-content active" id="details-tab">
+                    <div class="tab-content-inner">
+                        <h3>设计灵感</h3>
+                        <p>本季秋冬系列灵感来源于20世纪40年代的复古优雅风格，融合现代设计元素，创造出兼具经典与时尚的独特魅力。这款丝绒连衣裙正是这一设计理念的完美体现，既保留了复古的奢华感，又赋予了现代的实用性。</p>
+                        
+                        <h3>工艺细节</h3>
+                        <p>每一件Louiss产品都凝聚了我们精湛的工艺和对细节的极致追求。这款连衣裙由意大利资深工匠手工缝制，每一针每一线都经过严格把控。领口和袖口采用精细的滚边工艺，确保穿着舒适的同时不失优雅。</p>
+                        
+                        <h3>搭配建议</h3>
+                        <p>可搭配同系列手袋和高跟鞋，打造完整的晚宴装扮。日常穿着可搭配短靴和皮草外套，展现随性而不随意的时尚态度。不同场合的灵活搭配，展现您的多面魅力。</p>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="care-tab">
+                    <div class="tab-content-inner">
+                        <h3>保养说明</h3>
+                        <ul>
+                            <li>建议专业干洗</li>
+                            <li>避免长时间阳光直射</li>
+                            <li>存放时请使用衣架悬挂，避免折叠产生褶皱</li>
+                            <li>如遇轻微污渍，可用干净湿布轻轻擦拭，请勿用力搓揉</li>
+                            <li>收纳时放入防尘袋，避免灰尘和湿气</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="shipping-tab">
+                    <div class="tab-content-inner">
+                        <h3>配送信息</h3>
+                        <ul>
+                            <li>订单确认后3-5个工作日内发货</li>
+                            <li>国内订单顺丰速运，预计1-3天送达</li>
+                            <li>国际订单DHL快递，预计5-7个工作日送达</li>
+                            <li>所有订单均提供物流追踪服务</li>
+                            <li>配送费用将根据目的地和订单金额自动计算</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 相关推荐 -->
+            <div class="related-products">
+                <h3>您可能还喜欢</h3>
+                <div class="product-grid">
+                    <div class="product-item" data-category="women" data-type="dresses">
+                        <div class="product-image">
+                            <img src="images/bestseller-dress-2.jpg" alt="印花真丝连衣裙">
+                        </div>
+                        <div class="product-info">
+                            <h4>印花真丝连衣裙</h4>
+                            <p>女士 | 连衣裙</p>
+                            <div class="product-price">¥14,500</div>
+                            <a href="product-detail.html?id=7" class="view-details">查看详情</a>
+                        </div>
+                    </div>
+                    
+                    <div class="product-item" data-category="women" data-type="bags">
+                        <div class="product-image">
+                            <img src="images/new-bag-1.jpg" alt="经典老花手袋">
+                        </div>
+                        <div class="product-info">
+                            <h4>经典老花手袋</h4>
+                            <p>女士 | 手袋</p>
+                            <div class="product-price">¥32,500</div>
+                            <a href="product-detail.html?id=3" class="view-details">查看详情</a>
+                        </div>
+                    </div>
+                    
+                    <div class="product-item" data-category="women" data-type="shoes">
+                        <div class="product-image">
+                            <img src="images/bestseller-shoes-1.jpg" alt="细高跟晚宴鞋">
+                        </div>
+                        <div class="product-info">
+                            <h4>细高跟晚宴鞋</h4>
+                            <p>女士 | 鞋履</p>
+                            <div class="product-price">¥8,600</div>
+                            <a href="product-detail.html?id=5" class="view-details">查看详情</a>
+                        </div>
+                    </div>
+                    
+                    <div class="product-item" data-category="women" data-type="dresses">
+                        <div class="product-image">
+                            <img src="images/runway-dress-1.jpg" alt="限量版走秀款连衣裙">
+                        </div>
+                        <div class="product-info">
+                            <h4>限量版走秀款连衣裙</h4>
+                            <p>女士 | 连衣裙</p>
+                            <div class="product-price">¥45,800</div>
+                            <a href="product-detail.html?id=9" class="view-details">查看详情</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>购物指南</h4>
+                    <ul>
+                        <li><a href="#">如何购物</a></li>
+                        <li><a href="#">支付方式</a></li>
+                        <li><a href="#">配送信息</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>品牌服务</h4>
+                    <ul>
+                        <li><a href="services.html">包装服务</a></li>
+                        <li><a href="services.html">售后政策</a></li>
+                        <li><a href="services.html">保养指南</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>关于我们</h4>
+                    <ul>
+                        <li><a href="#">品牌故事</a></li>
+                        <li><a href="#">新闻动态</a></li>
+                        <li><a href="#">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>关注我们</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Louiss. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 搜索结果模态框 -->
+    <div id="searchResultsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>搜索结果</h3>
+                <button id="closeModal" class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body" id="searchResults">
+                <!-- 搜索结果将在这里显示 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/scripts.js"></script>
+    <script src="js/product-detail.js"></script>
+</body>
+</html>
