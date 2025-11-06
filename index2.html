@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>时区转换计算器</title>
+    <style>
+        /* 基础样式变量 */
+        :root {
+            --bg-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-tertiary: #999999;
+            --border-color: #e0e0e0;
+            --accent-color: #4285f4;
+            --accent-hover: #3367d6;
+            --result-bg: #f0f7ff;
+            --result-border: #e1f0fe;
+            --history-bg: #f9f9f9;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --bg-color: #1a1a2e;
+            --card-bg: #16213e;
+            --text-primary: #f0f0f0;
+            --text-secondary: #b8b8b8;
+            --text-tertiary: #888888;
+            --border-color: #333f58;
+            --accent-color: #4da6ff;
+            --accent-hover: #3a89e9;
+            --result-bg: #1e3163;
+            --result-border: #2a4380;
+            --history-bg: #1a2947;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 20px;
+            transition: var(--transition);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 30px 20px;
+            transition: var(--transition);
+        }
+
+        /* 标题区样式 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--text-primary);
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            flex: 1;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 20px;
+            transition: var(--transition);
+        }
+
+        .theme-toggle:hover {
+            color: var(--accent-color);
+            transform: rotate(30deg);
+        }
+
+        .time-display {
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        /* 转换核心区样式 */
+        .converter {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .timezone-block {
+            flex: 1;
+            min-width: 280px;
+            background: var(--history-bg);
+            border-radius: 8px;
+            padding: 20px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .timezone-block:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .timezone-block label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 18px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 15px;
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            transition: var(--transition);
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.1);
+        }
+
+        #result {
+            background: var(--result-bg);
+            border: 1px solid var(--result-border);
+            padding: 14px 15px;
+            border-radius: 6px;
+            min-height: 46px;
+            display: flex;
+            align-items: center;
+            color: var(--text-primary);
+            font-size: 15px;
+            transition: var(--transition);
+        }
+
+        #swap-btn {
+            padding: 12px 20px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: var(--transition);
+            margin: 0 10px;
+        }
+
+        #swap-btn:hover {
+            background: var(--accent-hover);
+            transform: scale(1.05);
+        }
+
+        #swap-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* 格式选择器 */
+        .format-options {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .format-option {
+            padding: 6px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .format-option:hover {
+            border-color: var(--accent-color);
+        }
+
+        .format-option.active {
+            background-color: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        /* 历史记录区域 */
+        .history-section {
+            margin-top: 40px;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .history-title {
+            font-size: 18px;
+            color: var(--text-primary);
+        }
+
+        .clear-history {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .clear-history:hover {
+            color: #e74c3c;
+        }
+
+        .history-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border-top: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .history-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-item:hover {
+            background-color: rgba(66, 133, 244, 0.05);
+        }
+
+        .history-item .timestamp {
+            color: var(--text-tertiary);
+            font-size: 12px;
+        }
+
+        /* 底部样式 */
+        .footer {
+            color: var(--text-tertiary);
+            font-size: 12px;
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .converter {
+                flex-direction: column;
+            }
+
+            #swap-btn {
+                rotate: 90deg;
+                margin: 10px 0;
+            }
+
+            .timezone-block {
+                width: 100%;
+            }
+        }
+
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .history-item {
+            animation: fadeIn 0.3s ease;
+        }
+
+        #result {
+            transition: all 0.3s ease;
+        }
+
+        #result.update {
+            animation: pulse 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(66, 133, 244, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(66, 133, 244, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(66, 133, 244, 0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 标题区 -->
+        <div class="header">
+            <h1>时区转换计算器</h1>
+            <button id="theme-toggle" class="theme-toggle">🌙</button>
+        </div>
+        <div class="time-display" id="local-time">当前系统时间：加载中...</div>
+
+        <!-- 格式选择器 -->
+        <div class="format-options">
+            <div class="format-option active" data-format="default">默认格式 (YYYY-MM-DD HH:MM)</div>
+            <div class="format-option" data-format="full">完整格式 (周几 月 日 年 HH:MM)</div>
+            <div class="format-option" data-format="24h">24小时制 (HH:MM DD/MM/YYYY)</div>
+            <div class="format-option" data-format="12h">12小时制 (hh:MM AM/PM MM/DD/YYYY)</div>
+        </div>
+
+        <!-- 转换核心区 -->
+        <div class="converter">
+            <!-- 源时区模块 -->
+            <div class="timezone-block">
+                <label>源时区</label>
+                <select id="source-tz"></select>
+                <label>源时间（格式：YYYY-MM-DD HH:MM）</label>
+                <input type="datetime-local" id="source-time" step="60">
+            </div>
+
+            <!-- 交换按钮 -->
+            <button id="swap-btn">⇄ 交换时区</button>
+
+            <!-- 目标时区模块 -->
+            <div class="timezone-block">
+                <label>目标时区</label>
+                <select id="target-tz"></select>
+                <label>转换结果</label>
+                <div id="result">请选择时区并输入时间</div>
+            </div>
+        </div>
+
+        <!-- 历史记录区域 -->
+        <div class="history-section">
+            <div class="history-header">
+                <div class="history-title">转换历史</div>
+                <button id="clear-history" class="clear-history">清除记录</button>
+            </div>
+            <div id="history-list" class="history-list">
+                <!-- 历史记录将在这里动态生成 -->
+            </div>
+        </div>
+
+        <!-- 底部提示 -->
+        <div class="footer">
+            数据基于浏览器时区库，自动处理夏令时 | 增强版
+        </div>
+    </div>
+
+    <script>
+        // 1. 定义支持的时区列表（30个主流时区）
+        const timezones = [
+            { name: "北京 - 中国", value: "Asia/Shanghai" },
+            { name: "香港 - 中国", value: "Asia/Hong_Kong" },
+            { name: "台北 - 中国台湾", value: "Asia/Taipei" },
+            { name: "纽约 - 美国", value: "America/New_York" },
+            { name: "洛杉矶 - 美国", value: "America/Los_Angeles" },
+            { name: "芝加哥 - 美国", value: "America/Chicago" },
+            { name: "伦敦 - 英国", value: "Europe/London" },
+            { name: "巴黎 - 法国", value: "Europe/Paris" },
+            { name: "柏林 - 德国", value: "Europe/Berlin" },
+            { name: "东京 - 日本", value: "Asia/Tokyo" },
+            { name: "悉尼 - 澳大利亚", value: "Australia/Sydney" },
+            { name: "新加坡 - 新加坡", value: "Asia/Singapore" },
+            { name: "首尔 - 韩国", value: "Asia/Seoul" },
+            { name: "莫斯科 - 俄罗斯", value: "Europe/Moscow" },
+            { name: "迪拜 - 阿联酋", value: "Asia/Dubai" },
+            { name: "新德里 - 印度", value: "Asia/Kolkata" },
+            { name: "曼谷 - 泰国", value: "Asia/Bangkok" },
+            { name: "吉隆坡 - 马来西亚", value: "Asia/Kuala_Lumpur" },
+            { name: "温哥华 - 加拿大", value: "America/Vancouver" },
+            { name: "多伦多 - 加拿大", value: "America/Toronto" },
+            { name: "里约热内卢 - 巴西", value: "America/Rio_de_Janeiro" },
+            { name: "约翰内斯堡 - 南非", value: "Africa/Johannesburg" },
+            { name: "伊斯坦布尔 - 土耳其", value: "Europe/Istanbul" },
+            { name: "开罗 - 埃及", value: "Africa/Cairo" },
+            { name: "墨西哥城 - 墨西哥", value: "America/Mexico_City" },
+            { name: "奥克兰 - 新西兰", value: "Pacific/Auckland" },
+            { name: "马德里 - 西班牙", value: "Europe/Madrid" },
+            { name: "罗马 - 意大利", value: "Europe/Rome" },
+            { name: "法兰克福 - 德国", value: "Europe/Frankfurt" },
+            { name: "旧金山 - 美国", value: "America/San_Francisco" }
+        ];
+
+        // 存储当前选择的时间格式
+        let currentFormat = 'default';
+        
+        // 2. 初始化页面
+        function init() {
+            // 填充时区选择框
+            const sourceSelect = document.getElementById('source-tz');
+            const targetSelect = document.getElementById('target-tz');
+            
+            timezones.forEach(tz => {
+                const option = document.createElement('option');
+                option.value = tz.value;
+                option.textContent = tz.name;
+                sourceSelect.appendChild(option.cloneNode(true));
+                targetSelect.appendChild(option);
+            });
+
+            // 默认选择：源时区=北京，目标时区=纽约
+            sourceSelect.value = "Asia/Shanghai";
+            targetSelect.value = "America/New_York";
+
+            // 设置当前时间为默认输入
+            const now = new Date();
+            const dateStr = now.toISOString().slice(0, 16); // 格式：YYYY-MM-DDTHH:MM
+            document.getElementById('source-time').value = dateStr;
+
+            // 显示本地系统时间
+            updateLocalTime();
+            setInterval(updateLocalTime, 1000); // 每秒更新一次
+
+            // 加载历史记录
+            loadHistory();
+
+            // 绑定事件
+            document.getElementById('source-tz').addEventListener('change', calculateTime);
+            document.getElementById('target-tz').addEventListener('change', calculateTime);
+            document.getElementById('source-time').addEventListener('input', calculateTime);
+            document.getElementById('swap-btn').addEventListener('click', swapTimezones);
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+            document.getElementById('clear-history').addEventListener('click', clearHistory);
+            
+            // 绑定格式选择事件
+            document.querySelectorAll('.format-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.format-option').forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFormat = this.dataset.format;
+                    calculateTime(); // 重新计算以应用新格式
+                });
+            });
+
+            // 检查本地存储中的主题设置
+            if (localStorage.getItem('darkMode') === 'true') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('theme-toggle').textContent = '☀️';
+            }
+
+            // 初始计算一次
+            calculateTime();
+        }
+
+        // 3. 更新本地系统时间显示
+        function updateLocalTime() {
+            const now = new Date();
+            const options = { 
+                year: 'numeric', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', second: '2-digit',
+                hour12: false 
+            };
+            document.getElementById('local-time').textContent = `当前系统时间：${now.toLocaleString('zh-CN', options)}`;
+        }
+
+        // 4. 核心：计算时区转换结果
+        function calculateTime() {
+            const sourceTz = document.getElementById('source-tz').value;
+            const targetTz = document.getElementById('target-tz').value;
+            const sourceTimeStr = document.getElementById('source-time').value;
+
+            if (!sourceTimeStr) {
+                document.getElementById('result').textContent = "请输入源时间";
+                return;
+            }
+
+            // 转换输入时间为Date对象（处理时区）
+            const sourceTime = new Date(sourceTimeStr);
+            if (isNaN(sourceTime.getTime())) {
+                document.getElementById('result').textContent = "时间格式错误";
+                return;
+            }
+
+            // 根据选择的格式获取不同的选项
+            let targetOptions;
+            switch(currentFormat) {
+                case 'full':
+                    targetOptions = {
+                        weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
+                        hour: '2-digit', minute: '2-digit',
+                        hour12: false,
+                        timeZone: targetTz
+                    };
+                    break;
+                case '24h':
+                    targetOptions = {
+                        hour: '2-digit', minute: '2-digit',
+                        day: '2-digit', month: '2-digit', year: 'numeric',
+                        hour12: false,
+                        timeZone: targetTz,
+                        year: 'numeric'
+                    };
+                    break;
+                case '12h':
+                    targetOptions = {
+                        hour: '2-digit', minute: '2-digit',
+                        day: '2-digit', month: '2-digit', year: 'numeric',
+                        hour12: true,
+                        timeZone: targetTz
+                    };
+                    break;
+                default: // default
+                    targetOptions = {
+                        year: 'numeric', month: '2-digit', day: '2-digit',
+                        hour: '2-digit', minute: '2-digit',
+                        hour12: false,
+                        timeZone: targetTz
+                    };
+            }
+
+            const sourceOptions = {
+                timeZone: sourceTz,
+                year: 'numeric', month: '2-digit', day: '2-digit'
+            };
+
+            // 获取源时区和目标时区的名称
+            const sourceTzName = timezones.find(tz => tz.value === sourceTz)?.name || sourceTz;
+            const targetTzName = timezones.find(tz => tz.value === targetTz)?.name || targetTz;
+
+            // 格式化目标时区时间
+            const targetTimeStr = sourceTime.toLocaleString('zh-CN', targetOptions);
+            const sourceDate = sourceTime.toLocaleDateString('zh-CN', sourceOptions);
+            const targetDate = sourceTime.toLocaleDateString('zh-CN', { ...sourceOptions, timeZone: targetTz });
+
+            // 计算时差和跨天
+            const sourceOffset = new Date(sourceTime.toLocaleString('en-US', { timeZone: sourceTz })).getTimezoneOffset();
+            const targetOffset = new Date(sourceTime.toLocaleString('en-US', { timeZone: targetTz })).getTimezoneOffset();
+            const hourDiff = (sourceOffset - targetOffset) / 60; // 时差（小时）
+            
+            let dayDiffText = '';
+            if (sourceDate !== targetDate) {
+                dayDiffText = hourDiff > 0 ? `+${Math.floor(hourDiff / 24) + 1}天` : `-${Math.floor(Math.abs(hourDiff) / 24) + 1}天`;
+            }
+
+            // 显示结果并添加动画效果
+            const resultElement = document.getElementById('result');
+            const resultText = `${targetTimeStr} （${hourDiff >= 0 ? '+' : ''}${hourDiff}小时 ${dayDiffText}`.trim() + '）';
+            resultElement.textContent = resultText;
+            resultElement.classList.add('update');
+            setTimeout(() => resultElement.classList.remove('update'), 500);
+
+            // 保存到历史记录
+            saveToHistory({
+                sourceTz: sourceTzName,
+                targetTz: targetTzName,
+                sourceTime: sourceTime.toLocaleString('zh-CN'),
+                targetTime: targetTimeStr,
+                timestamp: new Date().toISOString()
+            });
+        }
+
+        // 5. 交换时区功能
+        function swapTimezones() {
+            const sourceSelect = document.getElementById('source-tz');
+            const targetSelect = document.getElementById('target-tz');
+            
+            // 交换选中值
+            const temp = sourceSelect.value;
+            sourceSelect.value = targetSelect.value;
+            targetSelect.value = temp;
+            
+            // 重新计算
+            calculateTime();
+        }
+
+        // 6. 切换深色/浅色模式
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            const themeIcon = document.getElementById('theme-toggle');
+            themeIcon.textContent = isDark ? '☀️' : '🌙';
+            localStorage.setItem('darkMode', isDark);
+        }
+
+        // 7. 保存到历史记录
+        function saveToHistory(item) {
+            let history = JSON.parse(localStorage.getItem('timezoneHistory') || '[]');
+            
+            // 限制历史记录数量为10条
+            if (history.length >= 10) {
+                history.pop(); // 移除最早的记录
+            }
+            
+            // 添加新记录到开头
+            history.unshift(item);
+            localStorage.setItem('timezoneHistory', JSON.stringify(history));
+            
+            // 更新历史记录显示
+            loadHistory();
+        }
+
+        // 8. 加载历史记录
+        function loadHistory() {
+            const historyList = document.getElementById('history-list');
+            const history = JSON.parse(localStorage.getItem('timezoneHistory') || '[]');
+            
+            if (history.length === 0) {
+                historyList.innerHTML = '<div class="history-item">暂无转换记录</div>';
+                return;
+            }
+            
+            historyList.innerHTML = '';
+            
+            history.forEach(item => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                
+                // 格式化时间戳
+                const timestamp = new Date(item.timestamp);
+                const timeStr = timestamp.toLocaleTimeString('zh-CN', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                historyItem.innerHTML = `
+                    <div>
+                        ${item.sourceTime} (${item.sourceTz}) → ${item.targetTime} (${item.targetTz})
+                    </div>
+                    <div class="timestamp">${timeStr}</div>
+                `;
+                
+                historyList.appendChild(historyItem);
+            });
+        }
+
+        // 9. 清除历史记录
+        function clearHistory() {
+            if (confirm('确定要清除所有转换历史吗？')) {
+                localStorage.removeItem('timezoneHistory');
+                loadHistory();
+            }
+        }
+
+        // 页面加载完成后初始化
+        window.onload = init;
+    </script>
+</body>
+</html>
