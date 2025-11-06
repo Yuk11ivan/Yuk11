@@ -1,0 +1,10 @@
+<svg width="150" height="40" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景装饰 -->
+  <rect x="0" y="0" width="150" height="40" fill="#fff"/>
+  <!-- 金色边框 -->
+  <rect x="2" y="2" width="146" height="36" fill="none" stroke="#d4af37" stroke-width="1"/>
+  <!-- 精致字体的LOUISS -->
+  <text x="50%" y="26" font-family="'Times New Roman', serif" font-size="28" font-weight="bold" text-anchor="middle" fill="#333" letter-spacing="1">LOUISS</text>
+  <!-- 经典装饰元素 -->
+  <path d="M30,35 L120,35" stroke="#8b5a2b" stroke-width="1"/>
+</svg>
